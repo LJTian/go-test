@@ -1,1 +1,2 @@
 test1 测试 gc 
+test2 测试go build    [测试编译时 =+ 编译是否报错] 

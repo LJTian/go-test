@@ -4,7 +4,10 @@ import (
     "log"
     "runtime"
     "time"
+	"net/http"
+	_ "net/http/pprof"
 )
+
 func readMemStats(){
 
 	var ms runtime.MemStats
@@ -27,6 +30,11 @@ func test() {
 }
 
 func main() {
+
+	go func(){
+		log.Println(http.ListenAndServe("0.0.0.0:10000", nil))
+	}()
+
     log.Println("Start.")
 
 	readMemStats()
