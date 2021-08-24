@@ -1,0 +1,50 @@
+2021/08/20 13:36:17 initLog SUCC!!
+2021/08/20 13:36:17 LogLevel is [DEBUG]
+2021/08/20 13:36:17 [ main.go              ]:[   17][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\test1\WebMng.log]
+2021/08/20 13:36:17 [ main.go              ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8007]
+2021/08/20 13:41:16 initLog SUCC!!
+2021/08/20 13:41:16 LogLevel is [DEBUG]
+2021/08/20 13:41:16 [ main.go              ]:[   17][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\test1\WebMng.log]
+2021/08/20 13:41:16 [ main.go              ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8007]
+2021/08/20 13:50:08 initLog SUCC!!
+2021/08/20 13:50:08 LogLevel is [DEBUG]
+2021/08/20 13:50:08 [ main.go              ]:[   17][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\test1\WebMng.log]
+2021/08/20 13:50:08 [ main.go              ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8007]
+2021/08/20 13:51:29 initLog SUCC!!
+2021/08/20 13:51:29 LogLevel is [DEBUG]
+2021/08/20 13:51:29 [ main.go              ]:[   17][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\test1\WebMng.log]
+2021/08/20 13:51:29 [ main.go              ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8007]
+2021/08/20 14:00:00 initLog SUCC!!
+2021/08/20 14:00:00 LogLevel is [DEBUG]
+2021/08/20 14:00:00 [ main.go              ]:[   17][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\test1\WebMng.log]
+2021/08/20 14:00:00 [ main.go              ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:28:48 initLog SUCC!!
+2021/08/20 14:28:48 LogLevel is [DEBUG]
+2021/08/20 14:28:48 [ main.go              ]:[   14][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\WebMng-1.0\bin/../log/WebMng.log]
+2021/08/20 14:28:48 [ main.go              ]:[   37][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:29:52 initLog SUCC!!
+2021/08/20 14:29:52 LogLevel is [DEBUG]
+2021/08/20 14:29:52 [ main.go              ]:[   14][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\WebMng-1.0\bin/../log/WebMng.log]
+2021/08/20 14:29:52 [ main.go              ]:[   37][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:30:31 initLog SUCC!!
+2021/08/20 14:30:31 LogLevel is [DEBUG]
+2021/08/20 14:30:31 [ main.go              ]:[   14][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\WebMng-1.0\bin/../log/WebMng.log]
+2021/08/20 14:30:31 [ main.go              ]:[   37][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:31:03 initLog SUCC!!
+2021/08/20 14:31:03 LogLevel is [DEBUG]
+2021/08/20 14:31:03 [ main.go              ]:[   14][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\WebMng-1.0\bin/../log/WebMng.log]
+2021/08/20 14:31:03 [ main.go              ]:[   37][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:31:39 initLog SUCC!!
+2021/08/20 14:31:39 LogLevel is [DEBUG]
+2021/08/20 14:31:39 [ main.go              ]:[   14][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\WebMng-1.0\bin/../log/WebMng.log]
+2021/08/20 14:31:39 [ main.go              ]:[   37][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:32:32 initLog SUCC!!
+2021/08/20 14:32:32 LogLevel is [DEBUG]
+2021/08/20 14:32:32 [ main.go              ]:[   14][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\go-gin\WebMng-1.0\bin/../log/WebMng.log]
+2021/08/20 14:32:32 [ main.go              ]:[   37][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/20 14:32:49 [ ContextExec.go       ]:[   51][ DEBUG ]: net startMISWinService
+2021/08/20 14:32:51 [ ContextExec.go       ]:[   15][ DEBUG ]: net startMISWinService_go
+2021/08/20 14:32:53 [ ContextExec.go       ]:[   63][ DEBUG ]: net stopMISWinService
+2021/08/20 14:32:55 [ ContextExec.go       ]:[   27][ DEBUG ]: net stopMISWinService_go
+2021/08/20 14:32:57 [ ContextExec.go       ]:[   75][ DEBUG ]: \log\ 日志清理 成功
+2021/08/20 14:32:59 [ ContextExec.go       ]:[   39][ DEBUG ]: D:\mis2_1_cgo\log\ 日志清理 成功

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>服务控制页面</title>
+<!--    <script src="/static/script/jquery-1.7.2.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $(function(){
+            $("#JMSvrStart").click(function(){
+                var url = "/JmSvr/Start"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+
+            $("#JMSvrStop").click(function(){
+                var url = "/JmSvr/Stop"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+
+            $("#JMLogClear").click(function(){
+                var url = "/JmSvr/Clear"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+
+            $("#SvrStart").click(function(){
+                var url = "/Svr/Start"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+
+            $("#SvrStop").click(function(){
+                var url = "/Svr/Stop"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+
+            $("#LogClear").click(function(){
+                var url = "/Svr/Clear"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    </br>
+        <h1 >
+            服务控制页面：
+        </h1>
+    </br>
+
+    <div >
+        <input type="button" value="界面服务启动" class="submit" id="JMSvrStart" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="界面服务关闭" class="submit" id="JMSvrStop" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="界面清理日志" class="submit" id="JMLogClear" style="width: 120px;height: 40px ;"/>
+        </br>
+        </br>
+        <input type="button" value="后台服务启动" class="submit" id="SvrStart" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="后台服务关闭" class="submit" id="SvrStop" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="后台清理日志" class="submit" id="LogClear" style="width: 120px;height: 40px ;"/>
+    </div>
+</body>
+</html>

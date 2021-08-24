@@ -1,11 +1,11 @@
 package main
 
 import (
-    "log"
-    "runtime"
-    "time"
+	"log"
 	"net/http"
 	_ "net/http/pprof"
+	"runtime"
+	"time"
 )
 
 func readMemStats(){
