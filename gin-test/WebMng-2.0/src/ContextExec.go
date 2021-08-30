@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	. "gin-test/WebMng-2.0/utils/log"
-	"gin-test/WebMng-2.0/utils/tools"
+	. "gin_test/WebMng-2.0/utils/log"
+	"gin_test/WebMng-2.0/utils/tools"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"

@@ -1,4 +1,4 @@
-module gin-test
+module gin_test
 
 go 1.14
 
@@ -8,4 +8,6 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/smartystreets/goconvey v1.6.4 // indirect
+	gorm.io/driver/mysql v1.1.2
+	gorm.io/gorm v1.21.14
 )

@@ -1,8 +1,8 @@
 package main
 
 import (
-	. "gin-test/WebMng-1.0/utils/log"
-	"gin-test/WebMng-1.0/utils/tools"
+	. "gin_test/WebMng-1.0/utils/log"
+	"gin_test/WebMng-1.0/utils/tools"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
