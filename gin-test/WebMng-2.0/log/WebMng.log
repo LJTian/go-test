@@ -48,3 +48,17 @@
 2021/08/20 14:32:55 [ ContextExec.go       ]:[   27][ DEBUG ]: net stopMISWinService_go
 2021/08/20 14:32:57 [ ContextExec.go       ]:[   75][ DEBUG ]: \log\ 日志清理 成功
 2021/08/20 14:32:59 [ ContextExec.go       ]:[   39][ DEBUG ]: D:\mis2_1_cgo\log\ 日志清理 成功
+2021/08/30 10:00:16 initLog SUCC!!
+2021/08/30 10:00:16 LogLevel is [DEBUG]
+2021/08/30 10:00:16 [ main.go              ]:[   15][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\gin-test\WebMng-2.0\bin/../log/WebMng.log]
+2021/08/30 10:00:16 [ main.go              ]:[   47][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/30 10:00:29 [ main.go              ]:[   23][ DEBUG ]: %v 0s
+2021/08/30 10:00:32 [ main.go              ]:[   23][ DEBUG ]: %v 0s
+2021/08/30 10:01:29 initLog SUCC!!
+2021/08/30 10:01:29 LogLevel is [DEBUG]
+2021/08/30 10:01:29 [ main.go              ]:[   15][  INFO ]: 日志注册成功,日志文件目录为:[F:\go-test\gin-test\WebMng-2.0\bin/../log/WebMng.log]
+2021/08/30 10:01:29 [ main.go              ]:[   47][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8006]
+2021/08/30 10:01:35 [ main.go              ]:[   23][ DEBUG ]: 0s
+2021/08/30 10:04:47 [ main.go              ]:[   23][ DEBUG ]: 628.2299ms
+2021/08/30 10:04:57 [ main.go              ]:[   23][ DEBUG ]: 36.2491ms
+2021/08/30 10:05:09 [ main.go              ]:[   23][ DEBUG ]: 36.0308ms

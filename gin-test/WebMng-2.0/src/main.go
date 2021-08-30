@@ -5,19 +5,35 @@ import (
 	"gin-test/WebMng-1.0/utils/tools"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 func initWebMng() {
 	LogPath := tools.GetCurrentDirectory()
 	LogFile := LogPath + "/../log/WebMng.log"
 	InitLog(LogFile, LOG_DEBUG)
+	TlogPrintln(LOG_INFO, "==========================================系统启动===========================================")
 	TlogPrintf(LOG_INFO, "日志注册成功,日志文件目录为:[%s]\n", LogFile)
+}
+
+func initDBContine() {
+
+}
+
+func HookApiRecoid(c *gin.Context) {
+
+	start := time.Now()
+	c.Next()
+	Timing := time.Since(start)
+	TlogPrintf(LOG_DEBUG, "%v", Timing)
+
 }
 
 func StartWebMng(addr string) {
 	// 1.创建路由
 	r := gin.Default()
 	r.GET("/", index)
+	r.Use(HookApiRecoid)
 	r.LoadHTMLFiles(tools.GetCurrentDirectory() + "/../html/index.html")
 	// 2.绑定路由规则，执行的函数
 	// gin.Context，封装了request和response
@@ -46,8 +62,10 @@ func index(c *gin.Context) {
 }
 
 func main() {
-	//	获取系统环境变量
+	// 获取系统环境变量
 	initWebMng()
+	// 链接数据库()
+	initDBContine()
 	// 启动管理页面
 	StartWebMng(":8006")
 }
