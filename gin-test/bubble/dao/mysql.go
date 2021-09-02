@@ -1,7 +1,8 @@
 package dao
 
 import (
-	"gorm.io/driver/mysql"
+	"gin_test/bubble/conf"
+	"gin_test/bubble/utils/db"
 	"gorm.io/gorm"
 )
 
@@ -11,8 +12,9 @@ var (
 
 func InitMysqlDB() (err error) {
 	// 初始化数据库
-	sTmpBuf := "root:123456@tcp(127.0.0.1:3306)/bubble?charset=utf8mb4&parseTime=True&loc=Local"
-	Db, err = gorm.Open(mysql.Open(sTmpBuf), &gorm.Config{})
+	cfg := conf.CFG
+	mysqlDbInfo := db.NewMySqlDBInfo(cfg.Ip, cfg.Port, cfg.UserName, cfg.PassWord, cfg.Name, "utf8mb4", true)
+	Db, err = mysqlDbInfo.InitMysql()
 	if err != nil {
 		return err
 	}
