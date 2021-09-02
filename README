@@ -9,6 +9,7 @@ dome-test:
 
 gin-test:
     bubble                      小清单项目
+    Docker_bubble               容器版——小清单项目
     test1                       gin 文件上传下载
     WebMng-1.0                  基于页面的服务启动关闭程序清理日志程序
     WebMng-2.0                  升级及集合其它功能之后的程序
