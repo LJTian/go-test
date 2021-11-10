@@ -1,0 +1,7 @@
+
+
+build_linux:
+	go build -o ./bin/linux/IcWebMng_linux ./cmd/main.go
+
+build_Win:
+	go build -o ./bin/win/IcWebMng_win ./cmd/main.go
