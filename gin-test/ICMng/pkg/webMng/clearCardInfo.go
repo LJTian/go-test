@@ -11,7 +11,7 @@ import (
 
 func InitWebMng() {
 	LogPath := tools.GetCurrentDirectory()
-	LogFile := LogPath + "/../log/WebMng.log"
+	LogFile := LogPath + "/../../log/WebMng.log"
 	InitLog(LogFile, LOG_DEBUG)
 	TlogPrintf(LOG_INFO, "日志注册成功,日志文件目录为:[%s]\n", LogFile)
 }
@@ -23,8 +23,9 @@ func StartWebMng(addr string) {
 	shellHead := r.Group("/shell")
 	{
 		shellHead.POST("/clearCardInfo", clearCardInfo)
+		shellHead.POST("/genCard", genCard)
 	}
-	r.LoadHTMLFiles(tools.GetCurrentDirectory() + "/../html/index.html")
+	r.LoadHTMLFiles(tools.GetCurrentDirectory() + "/../../html/index.html")
 	// 2.绑定路由规则，执行的函数
 	// gin.Context，封装了request和response
 
@@ -42,7 +43,21 @@ func index(c *gin.Context) {
 func clearCardInfo(c *gin.Context) {
 	shellPwd := "/home/card_saas/shell/card_clear/"
 	shellName := "card_clear.sh"
-	TlogPrintln(LOG_DEBUG, "shell "+shellPwd+shellName)
+	TlogPrintln(LOG_DEBUG, "sh "+shellPwd+shellName)
+	cmd := exec.Command("sh", shellPwd+shellName)
+	err := cmd.Run()
+	if err != nil {
+		c.String(200, fmt.Sprintf("%v", err.Error()))
+		TlogPrintln(LOG_ERROR, "err : ", err.Error())
+	} else {
+		c.String(http.StatusOK, "ok")
+	}
+}
+
+func genCard(c *gin.Context) {
+	shellPwd := "/home/card_saas/shell/genCard/"
+	shellName := "genCard_Web.sh"
+	TlogPrintln(LOG_DEBUG, "sh "+shellPwd+shellName)
 	cmd := exec.Command("sh", shellPwd+shellName)
 	err := cmd.Run()
 	if err != nil {

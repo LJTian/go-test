@@ -43,6 +43,18 @@
                     }
                 });
             });
+
+            $("#genCard").click(function(){
+                var url = "/shell/genCard"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -52,7 +64,8 @@
     <h1 class="txt1">web工具</h1>
     <div class="con_1">
         <h2 class="txt2">系统脚本执行</h2>
-        <input type="button" value="清理卡信息" class="bt_1" id="clearCardInfo" style="width: 120px;height: 40px ;"/><br>
+        <input type="button" value="清理卡信息" class="bt_1" id="clearCardInfo" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="制卡跑批" class="bt_1" id="genCard" style="width: 120px;height: 40px ;"/><br>
     </div>
     <div class="con_2">
         <h2>报文发送</h2>

@@ -27,7 +27,7 @@ func OsExe(CmdName, action, SvrName string) (err error) {
 
 	cmd := exec.Command(CmdName, action, SvrName)
 	Cmderr := cmd.Run()
-	if err != nil {
+	if Cmderr != nil {
 		err = Cmderr
 	}
 	return err

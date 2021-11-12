@@ -57,3 +57,9 @@
 2021/11/10 19:00:58 [ clearCardInfo.go     ]:[   31][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
 2021/11/10 19:01:20 [ clearCardInfo.go     ]:[   47][ DEBUG ]: cd /home/card_saas/shell/card_clear/ && sh card_clear.sh
 2021/11/10 19:01:20 [ clearCardInfo.go     ]:[   53][ ERROR ]: err :  exec: "cd /home/card_saas/shell/card_clear/ && sh card_clear.sh": file does not exist
+2021/11/12 09:33:39 initLog SUCC!!
+2021/11/12 09:33:39 LogLevel is [DEBUG]
+2021/11/12 09:33:39 [ clearCardInfo.go     ]:[   16][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/12 09:33:39 [ clearCardInfo.go     ]:[   32][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/12 09:34:49 [ clearCardInfo.go     ]:[   60][ DEBUG ]: shell /home/card_saas/shell/genCard/genCard_Web.sh
+2021/11/12 09:34:49 [ clearCardInfo.go     ]:[   65][ ERROR ]: err :  exec: "sh": executable file not found in %PATH%

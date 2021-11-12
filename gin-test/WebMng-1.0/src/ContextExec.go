@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
+	. "gin_test/WebMng-1.0/utils/log"
+	"gin_test/WebMng-1.0/utils/tools"
 	"github.com/gin-gonic/gin"
-	. "gotest/utils/log"
-	"gotest/utils/tools"
 	"net/http"
 	"os"
 )
