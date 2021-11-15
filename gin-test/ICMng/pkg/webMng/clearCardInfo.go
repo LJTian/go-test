@@ -1,13 +1,19 @@
 package webMng
 
 import (
+	"bytes"
+	"encoding/hex"
 	"fmt"
 	. "github.com/LJTian/Tools/log"
 	"github.com/LJTian/Tools/tools"
 	"github.com/gin-gonic/gin"
+	"net"
 	"net/http"
 	"os/exec"
+	"syscall"
 )
+
+var maxRead int = 20480
 
 func InitWebMng() {
 	LogPath := tools.GetCurrentDirectory()
@@ -24,6 +30,10 @@ func StartWebMng(addr string) {
 	{
 		shellHead.POST("/clearCardInfo", clearCardInfo)
 		shellHead.POST("/genCard", genCard)
+	}
+	MsgHead := r.Group("/Msg")
+	{
+		MsgHead.POST("/SendMsg", sendMsg)
 	}
 	r.LoadHTMLFiles(tools.GetCurrentDirectory() + "/../../html/index.html")
 	// 2.绑定路由规则，执行的函数
@@ -65,5 +75,65 @@ func genCard(c *gin.Context) {
 		TlogPrintln(LOG_ERROR, "err : ", err.Error())
 	} else {
 		c.String(http.StatusOK, "ok")
+	}
+}
+
+//handleMsg 读取器信息
+func handleMsg(length int, err error, msg []byte) []byte {
+	var strBuff string
+	if length > 0 {
+		strBuff = fmt.Sprintf("%s", string(msg[2:length]))
+	}
+	return []byte(strBuff)
+}
+
+func sendMsg(c *gin.Context) {
+
+	var MsgLen [2]byte
+	var msgInfo bytes.Buffer
+	msg, ok := c.GetPostForm("msg")
+	if !ok {
+		TlogPrintln(LOG_ERROR, "err : GetPostForm Err")
+		c.String(200, fmt.Sprintf("err : GetPostForm Err"))
+	}
+
+	var resBuf []byte
+	ip, _ := c.GetPostForm("ip")
+	port, _ := c.GetPostForm("port")
+	conn, err := net.Dial("tcp", ip+":"+port)
+	if err != nil {
+		fmt.Println("client dial err=", err)
+		return
+	}
+
+	// 添加报文头
+	iLen := len(hex.EncodeToString([]byte(msg))) / 2
+	MsgLen[0] = byte(iLen >> 8)
+	MsgLen[1] = byte(iLen & 0xff)
+
+	msgInfo.WriteByte(MsgLen[0])
+	msgInfo.WriteByte(MsgLen[1])
+	msgInfo.WriteString(msg)
+	_, err = conn.Write(msgInfo.Bytes())
+	if err != nil {
+		fmt.Println("conn.Write err=", err)
+	}
+
+	for {
+		var ibuf []byte = make([]byte, maxRead+1)
+		length, err := conn.Read(ibuf[0:maxRead])
+		ibuf[maxRead] = 0 // to prevent overflow
+		switch err {
+		case nil:
+			resBuf = handleMsg(length, err, ibuf)
+			TlogPrintln(LOG_ERROR, "收到的报文为:\n", string(resBuf))
+			conn.Close()
+			break
+		case syscall.EAGAIN: // try again
+			continue
+		default:
+			TlogPrintln(LOG_ERROR, "未收到报文")
+			return
+		}
 	}
 }
