@@ -1,8 +1,6 @@
 package webMng
 
 import (
-	"bytes"
-	"encoding/hex"
 	"fmt"
 	. "github.com/LJTian/Tools/log"
 	"github.com/LJTian/Tools/tools"
@@ -30,6 +28,8 @@ func StartWebMng(addr string) {
 	{
 		shellHead.POST("/clearCardInfo", clearCardInfo)
 		shellHead.POST("/genCard", genCard)
+		shellHead.POST("/bootStart", bootStart)
+		shellHead.POST("/bootStop", bootStop)
 	}
 	MsgHead := r.Group("/Msg")
 	{
@@ -64,6 +64,30 @@ func clearCardInfo(c *gin.Context) {
 	}
 }
 
+func bootStart(c *gin.Context) {
+	TlogPrintln(LOG_DEBUG, "boot.sh"+" start")
+	cmd := exec.Command("boot.sh", "start")
+	err := cmd.Run()
+	if err != nil {
+		c.String(200, fmt.Sprintf("%v", err.Error()))
+		TlogPrintln(LOG_ERROR, "err : ", err.Error())
+	} else {
+		c.String(http.StatusOK, "ok")
+	}
+}
+
+func bootStop(c *gin.Context) {
+	TlogPrintln(LOG_DEBUG, "boot.sh"+" stop")
+	cmd := exec.Command("boot.sh", "stop")
+	err := cmd.Run()
+	if err != nil {
+		c.String(200, fmt.Sprintf("%v", err.Error()))
+		TlogPrintln(LOG_ERROR, "err : ", err.Error())
+	} else {
+		c.String(http.StatusOK, "ok")
+	}
+}
+
 func genCard(c *gin.Context) {
 	shellPwd := "/home/card_saas/shell/genCard/"
 	shellName := "genCard_Web.sh"
@@ -89,8 +113,6 @@ func handleMsg(length int, err error, msg []byte) []byte {
 
 func sendMsg(c *gin.Context) {
 
-	var MsgLen [2]byte
-	var msgInfo bytes.Buffer
 	msg, ok := c.GetPostForm("msg")
 	if !ok {
 		TlogPrintln(LOG_ERROR, "err : GetPostForm Err")
@@ -106,15 +128,8 @@ func sendMsg(c *gin.Context) {
 		return
 	}
 
-	// 添加报文头
-	iLen := len(hex.EncodeToString([]byte(msg))) / 2
-	MsgLen[0] = byte(iLen >> 8)
-	MsgLen[1] = byte(iLen & 0xff)
-
-	msgInfo.WriteByte(MsgLen[0])
-	msgInfo.WriteByte(MsgLen[1])
-	msgInfo.WriteString(msg)
-	_, err = conn.Write(msgInfo.Bytes())
+	// 添加报文长度
+	_, err = conn.Write(tools.StatisticalLen(msg, 2))
 	if err != nil {
 		fmt.Println("conn.Write err=", err)
 	}
@@ -126,7 +141,8 @@ func sendMsg(c *gin.Context) {
 		switch err {
 		case nil:
 			resBuf = handleMsg(length, err, ibuf)
-			TlogPrintln(LOG_ERROR, "收到的报文为:\n", string(resBuf))
+			TlogPrintln(LOG_DEBUG, "收到的报文为:\n", string(resBuf))
+			c.String(http.StatusOK, string(resBuf))
 			conn.Close()
 			break
 		case syscall.EAGAIN: // try again

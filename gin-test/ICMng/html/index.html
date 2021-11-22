@@ -56,6 +56,30 @@
                     }
                 });
             });
+
+            $("#bootStart").click(function(){
+                var url = "/shell/bootStart"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
+
+            $("#bootStop").click(function(){
+                var url = "/shell/bootStop"
+                //发送Ajax请求
+                $.post(url,null,function(res){
+                    if (res == "ok"){
+                        alert("ok!");
+                    }else{
+                        alert(res);
+                    }
+                });
+            });
         });
     </script>
 </head>
@@ -66,14 +90,16 @@
     <div class="con_1">
         <h2 class="txt2">系统脚本执行</h2>
         <input type="button" value="清理卡信息" class="bt_1" id="clearCardInfo" style="width: 120px;height: 40px ;"/>
-        <input type="button" value="制卡跑批" class="bt_1" id="genCard" style="width: 120px;height: 40px ;"/><br>
+        <input type="button" value="制卡跑批" class="bt_1" id="genCard" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="平台启动" class="bt_1" id="bootStart" style="width: 120px;height: 40px ;"/>
+        <input type="button" value="平台关闭" class="bt_1" id="bootStop" style="width: 120px;height: 40px ;"/><br>
     </div>
     <div class="con_2">
         <h2>报文发送</h2>
         <h4 >
             请输入要发送的IP及端口号：
             <input type="text" value="192.168.0.103" name="ip" id="ServerIp" style="width: 100px;height: 30px"  />
-            <input type="text" value="34003" name="port" id="ServerPort" style="width: 50px;height: 30px" />
+            <input type="text" value="55003" name="port" id="ServerPort" style="width: 50px;height: 30px" />
             <input type="button" value="发送报文" class="bt_2" id="BT_SendMsg" style="width: 120px;height: 40px ;"/><br>
 
         </h4>
