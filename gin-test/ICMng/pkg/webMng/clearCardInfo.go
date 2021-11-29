@@ -35,6 +35,7 @@ func StartWebMng(addr string) {
 	{
 		MsgHead.POST("/SendMsg", sendMsg)
 	}
+	r.StaticFS("/html", http.Dir(tools.GetCurrentDirectory()+"/../../html"))
 	r.LoadHTMLFiles(tools.GetCurrentDirectory() + "/../../html/index.html")
 	// 2.绑定路由规则，执行的函数
 	// gin.Context，封装了request和response

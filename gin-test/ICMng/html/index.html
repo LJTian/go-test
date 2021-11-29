@@ -1,145 +1,109 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TCP报文发送WEB端程序</title>
-    <!--    <script src="/static/script/jquery-1.7.2.js"></script>-->
-    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <script>
-        $(function(){
-            $("#BT_SendMsg").click(function(){
-
-                alert("BT_SendMsg")
-                if ($("#SendMsg").val().length == 0) {
-                    alert("请输入发送报文后再进行发送")
-                    return
-                }
-                var ip = $("#ServerIp").val();
-                var port = $("#ServerPort").val();
-                var msg = JSON.stringify(JSON.parse($("#SendMsg").val()));
-                var url = "/Msg/SendMsg"
-
-                //设置请求参数
-                var param = {"ip":ip, "port":port, "msg":msg };
-                var jsonObj = JSON.parse(msg)
-                $("#SendMsg").val(JSON.stringify(jsonObj, null, 4));
-                //发送Ajax请求
-                $.post(url,param,function(res){
-                    if (res != "err"){
-                        $("#ResMsg").val(res);
-                    }else{
-                        alert(res);
-                    }
-                });
-            });
-
-            $("#clearCardInfo").click(function(){
-                var url = "/shell/clearCardInfo"
-                //发送Ajax请求
-                $.post(url,null,function(res){
-                    if (res == "ok"){
-                        alert("ok!");
-                    }else{
-                        alert(res);
-                    }
-                });
-            });
-
-            $("#genCard").click(function(){
-                var url = "/shell/genCard"
-                //发送Ajax请求
-                $.post(url,null,function(res){
-                    if (res == "ok"){
-                        alert("ok!");
-                    }else{
-                        alert(res);
-                    }
-                });
-            });
-
-            $("#bootStart").click(function(){
-                var url = "/shell/bootStart"
-                //发送Ajax请求
-                $.post(url,null,function(res){
-                    if (res == "ok"){
-                        alert("ok!");
-                    }else{
-                        alert(res);
-                    }
-                });
-            });
-
-            $("#bootStop").click(function(){
-                var url = "/shell/bootStop"
-                //发送Ajax请求
-                $.post(url,null,function(res){
-                    if (res == "ok"){
-                        alert("ok!");
-                    }else{
-                        alert(res);
-                    }
-                });
-            });
-        });
-    </script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <title>Title</title>
 </head>
 <body>
+<div class="footer1">
+<div id="app">
+    <el-container>
+        <el-header>
+            <h1 class="title">web工具</h1>
+        </el-header>
 
-<form class="body">
-    <h1 class="txt1">web工具</h1>
-    <div class="con_1">
-        <h2 class="txt2">系统脚本执行</h2>
-        <input type="button" value="清理卡信息" class="bt_1" id="clearCardInfo" style="width: 120px;height: 40px ;"/>
-        <input type="button" value="制卡跑批" class="bt_1" id="genCard" style="width: 120px;height: 40px ;"/>
-        <input type="button" value="平台启动" class="bt_1" id="bootStart" style="width: 120px;height: 40px ;"/>
-        <input type="button" value="平台关闭" class="bt_1" id="bootStop" style="width: 120px;height: 40px ;"/><br>
-    </div>
-    <div class="con_2">
-        <h2>报文发送</h2>
-        <h4 >
-            请输入要发送的IP及端口号：
-            <input type="text" value="192.168.0.103" name="ip" id="ServerIp" style="width: 100px;height: 30px"  />
-            <input type="text" value="55003" name="port" id="ServerPort" style="width: 50px;height: 30px" />
-            <input type="button" value="发送报文" class="bt_2" id="BT_SendMsg" style="width: 120px;height: 40px ;"/><br>
+        <el-container>
+            <el-aside width="250px">
+                    <el-col :span="12">
+                    <el-menu
+                            default-active="2"
+                            class="el-menu-vertical-demo"
+                            @open="handleOpen"
+                            @close="handleClose">
+                        <el-submenu index="1">
+                            <template slot="title">
+                                <i class="el-icon-location"></i>
+                                <span>脚本触发</span>
+                            </template>
+                            <el-menu-item index="1-1">配置平台</el-menu-item>
+                            <el-menu-item index="1-2">SAAS平台</el-menu-item>
+                        </el-submenu>
+                        <el-menu-item index="2">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">报文相关</span>
+                        </el-menu-item>
+                        <el-menu-item index="3" >
+                            <i class="el-icon-document"></i>
+                            <span slot="title">操作记录</span>
+                        </el-menu-item>
+                        <el-menu-item index="4">
+                            <i class="el-icon-setting"></i>
+                            <span slot="title">系统设置</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-col>
+            </el-aside>
+            <el-main>
+<!--                <div class="con_1">-->
+<!--                    <h2 class="txt2">系统脚本执行</h2>-->
+<!--                    <input type="button" value="清理卡信息" class="bt_1" id="clearCardInfo" style="width: 120px;height: 40px ;"/>-->
+<!--                    <input type="button" value="制卡跑批" class="bt_1" id="genCard" style="width: 120px;height: 40px ;"/>-->
+<!--                    <input type="button" value="平台启动" class="bt_1" id="bootStart" style="width: 120px;height: 40px ;"/>-->
+<!--                    <input type="button" value="平台关闭" class="bt_1" id="bootStop" style="width: 120px;height: 40px ;"/>-->
+<!--                    <h2>执行结果：</h2>-->
+<!--                    <textarea rows="20" cols="125" value="111" name="msg" id="shell_Resp_msg"/></textarea><br>-->
+<!--                </div>-->
+                <div class="con_2">
+                    <h2>报文发送</h2>
+                    <h4 >
+                        请输入要发送的IP及端口号：
+                        <input type="text" value="192.168.0.103" name="ip" id="ServerIp" style="width: 100px;height: 30px"  />
+                        <input type="text" value="55003" name="port" id="ServerPort" style="width: 50px;height: 30px" />
+                        <input type="button" value="发送报文" class="bt_2" id="BT_SendMsg" style="width: 120px;height: 40px ;"/><br>
+                    </h4>
+                    <div class="footer">
+                        <div class="res">
+                            <h2>请输入要发送的报文：</h2>
+                            <textarea rows="40" cols="60" value="111" name="msg" id="SendMsg"/></textarea>
+                        </div>
+                        <div class="res">
+                            <h2>收到的报文为：</h2>
+                            <textarea rows="40" cols="60" value="" name="msg" id="ResMsg"/></textarea></br>
+                        </div>
+                    </div>
+                </div>
+            </el-main>
+        </el-container>
+    </el-container>
 
-        </h4>
-        <div class="footer">
-            <div class="res">
-                <h2>请输入要发送的报文：</h2>
-                <textarea rows="40" cols="60" value="111" name="msg" id="SendMsg"/></textarea>
-            </div>
-            <div class="res">
-                <h2>收到的报文为：</h2>
-                <textarea rows="40" cols="60" value="" name="msg" id="ResMsg"/></textarea></br>
-            </div>
-        </div>
+<!--    <el-container>-->
+<!--        <el-aside>Header</el-aside>-->
+<!--        <el-container>-->
+<!--            <el-header>-->
+
+<!--            </el-header>-->
+<!--            <el-container>-->
+<!--                <el-main>-->
+<!--                </el-main>-->
+<!--            </el-container>-->
+<!--        </el-container>-->
+<!--    </el-container>-->
     </div>
-</form>
+</div>
 </body>
-</html>
+
+<!-- import Vue before Element -->
+<script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+<!-- import JavaScript -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+<script>
+    new Vue({ el: '#app', data: function() { return { visible: false } } })
+</script>
+
 <style>
-    .body{
-        margin-left: 20px;
-    }
-    .body .txt1{
-        /*background: #5daf34;*/
-        /*margin-left: 20px;*/
-    }
-    .body .submit1{
-        /*background: #5daf34;*/
-    }
-    .con_1 {
-        /*background: red;*/
-    }
-
-    .con_2 {
-        /*background: greenyellow;*/
-    }
-
-    .footer{
-        overflow: hidden;
-    }
-
     .res{
         float: left;
         /*background: greenyellow;*/
@@ -153,4 +117,82 @@
         /*background: greenyellow;*/
     }
 
+    .con_1 {
+        /*!*border-style: double;*!  边框 */
+        /*margin-left: 5%;*/
+    }
+
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
+        /*height: 100%;*/
+        /*margin-left: auto;*/
+        /*margin-right: auto;*/
+
+    }
+    .footer{
+        overflow: hidden;
+    }
+
+    .footer1{
+        overflow: hidden;
+    }
+
+    .title {
+        font-family: "Times New Roman", Times, serif;
+        max-width: 160px;
+        /*border:2px solid Tomato; !* 边框 *!*/
+        /*color: navy;             !* 字体颜色 *!*/
+        text-align: center;      /* 居中对齐 */
+        background-color: lightblue; /* 底色 */
+        border-left: 20px solid green;
+        height: 60px;
+        font-style: italic;
+        font-size: 30px;
+
+    }
+
+    body {
+        /*background-image: url("/html/tree.png"); !* 图片 *!*/
+        /*background-position: right top; !* 存放位置 *!*/
+        /*background-repeat: no-repeat; !* 只显示一次 *!*/
+        /*!*background-repeat: repeat-x; !* 水平重复 *!*!*/
+        /*background-attachment: fixed; !* 固定，页面翻转正常展示 *!*/
+        /*!*background-attachment: scroll; !* 不跟随页面翻转 *!*!*/
+
+        background: #ffffff url("/html/tree.png") no-repeat fixed right top;
+
+        /* 在使用简写属性时，属性值的顺序为： */
+        /*background-color*/
+        /*background-image*/
+        /*background-repeat*/
+        /*background-attachment*/
+        /*background-position*/
+
+        margin-top: 1%;
+        /*margin-bottom: 100px;*/
+        margin-left: 1%;
+        /*margin-left: 80px;*/
+    }
+
 </style>
+
+<script>
+    export default {
+        data() {
+            return {
+                isCollapse: true
+            };
+        },
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            }
+        }
+    }
+</script>
+
+</html>

@@ -63,3 +63,60 @@
 2021/11/12 09:33:39 [ clearCardInfo.go     ]:[   32][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
 2021/11/12 09:34:49 [ clearCardInfo.go     ]:[   60][ DEBUG ]: shell /home/card_saas/shell/genCard/genCard_Web.sh
 2021/11/12 09:34:49 [ clearCardInfo.go     ]:[   65][ ERROR ]: err :  exec: "sh": executable file not found in %PATH%
+2021/11/15 18:38:46 initLog SUCC!!
+2021/11/15 18:38:46 LogLevel is [DEBUG]
+2021/11/15 18:38:46 [ clearCardInfo.go     ]:[   22][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/15 18:38:46 [ clearCardInfo.go     ]:[   42][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/18 10:51:15 initLog SUCC!!
+2021/11/18 10:51:15 LogLevel is [DEBUG]
+2021/11/18 10:51:15 [ clearCardInfo.go     ]:[   22][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/18 10:51:15 [ clearCardInfo.go     ]:[   42][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/18 11:54:49 initLog SUCC!!
+2021/11/18 11:54:49 LogLevel is [DEBUG]
+2021/11/18 11:54:49 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/18 11:54:49 [ clearCardInfo.go     ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/18 11:55:21 [ clearCardInfo.go     ]:[  118][ ERROR ]: 收到的报文为:
+ {
+	"intfaceId":	"WEB",
+	"version":	"1.0",
+	"transCode":	"02A200",
+	"issCardId":	"00000001",
+	"chanTrace":	"000024",
+	"issTrace":	"008033",
+	"transDate":	"14859",
+	"transTime":	"115521",
+	"issLogicDate":	"20201022",
+	"chanRrn":	"21111800000O",
+	"issRrn":	"2010220007R1",
+	"respCode":	"00",
+	"respDesc":	"交易成功"
+}
+2021/11/18 11:55:21 [ clearCardInfo.go     ]:[  125][ ERROR ]: 未收到报文
+2021/11/19 15:27:08 initLog SUCC!!
+2021/11/19 15:27:08 LogLevel is [DEBUG]
+2021/11/19 15:27:08 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/19 15:27:08 [ clearCardInfo.go     ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/21 19:19:56 initLog SUCC!!
+2021/11/21 19:19:56 LogLevel is [DEBUG]
+2021/11/21 19:19:56 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/21 19:19:56 [ clearCardInfo.go     ]:[   40][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/22 13:23:35 initLog SUCC!!
+2021/11/22 13:23:35 LogLevel is [DEBUG]
+2021/11/22 13:23:35 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[E:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/22 13:23:35 [ clearCardInfo.go     ]:[   42][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/22 13:23:44 [ clearCardInfo.go     ]:[   68][ DEBUG ]: boot.sh start
+2021/11/22 13:23:44 [ clearCardInfo.go     ]:[   73][ ERROR ]: err :  exec: "boot.sh": executable file not found in %PATH%
+2021/11/22 13:23:47 [ clearCardInfo.go     ]:[   80][ DEBUG ]: boot.sh stop
+2021/11/22 13:23:47 [ clearCardInfo.go     ]:[   85][ ERROR ]: err :  exec: "boot.sh": executable file not found in %PATH%
+2021/11/29 15:59:48 initLog SUCC!!
+2021/11/29 15:59:48 LogLevel is [DEBUG]
+2021/11/29 15:59:48 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[F:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/29 15:59:48 [ clearCardInfo.go     ]:[   42][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/29 17:06:38 initLog SUCC!!
+2021/11/29 17:06:38 LogLevel is [DEBUG]
+2021/11/29 17:06:38 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[F:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/29 17:06:38 [ clearCardInfo.go     ]:[   43][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
+2021/11/29 17:09:50 initLog SUCC!!
+2021/11/29 17:09:50 LogLevel is [DEBUG]
+2021/11/29 17:09:50 [ clearCardInfo.go     ]:[   20][  INFO ]: 日志注册成功,日志文件目录为:[F:\github.com\LJTian\go-test\gin-test\ICMng\bin\win/../../log/WebMng.log]
+2021/11/29 17:09:50 [ clearCardInfo.go     ]:[   43][  INFO ]: WEB管理页面加载成功, 监听地址为:[:8009]
