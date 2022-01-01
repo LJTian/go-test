@@ -205,19 +205,55 @@ func SumFloats(m map[string]float64) float64 {
   return 
 }
 ```
-在代码中，做了一下内容:    
-声明两个函数，将map中的值进行相加并返回结果
-  - SumFloats： 将map中的值转换成float64类型值
-  - SumInts：将map中的值转换成int64类型值
+    在代码中，做了以下内容:    
+    声明两个函数，将map中的值进行相加并返回结果
+    - SumFloats： 将map中的值转换成float64类型值
+    - SumInts：将map中的值转换成int64类型值
+
+- 4.在 main.go 文件的包声明下方，粘贴以下 main 函数代码。此main函数功能是：初始化两个map。这两个map将用于您在上一步中声明的函数，作为它们的输入参数。
+
+```go
+func main() {
+// Initialize a map for the integer values
+ints := map[string]int64{
+    "first": 34,
+    "second": 12,
+}
+
+// Initialize a map for the float values
+floats := map[string]float64{
+    "first": 35.98,
+    "second": 26.99,
+}
+
+fmt.Printf("Non-Generic Sums: %v and %v\n",
+    SumInts(ints),
+    SumFloats(floats))
+}
+```
+    在代码中，做了以下内容：
+    - 初始化一个 float64类型的map和一个 int64类型的map，每个map都有两个值。
+    - 调用您之前声明的两个函数来计算每个map内部值的总和。
+    - 打印结果
+- 5.在 main.go的上方，就在包声明的下方，导入支持刚刚编写的代码所需的包。
+  第一行代码应该是这样的:
+```go
+package main
+import "fmt"
+```
+
+- 6.保存main.go文件
 
 ### Run the code(运行代码)
-From the command line in the directory containing main.go, run the code.
+From the command line in the directory containing main.go, run the code.(在main.go文件所在的目录中打开命令终端，运行代码
+【译者注:打开终端切换至main.go文件所在目录，运行代码，也可以】)
 ```shell
 $ go run .
 Non-Generic Sums: 46 and 62.97
 ```
 With generics, you can write one function here instead of two. Next, you’ll add a single generic function for maps 
-containing either integer or float values.
+containing either integer or float values.(使用泛型，您可以在这里编写一个函数而不是两个。接下来， 您将为包含int64或float64的map添加
+一个通用函数。)
 
 ## Add a generic function to handle multiple types(添加一个泛型函数 用来处理多种类型)
 #### 原文
@@ -244,7 +280,22 @@ included numeric types, the code wouldn’t compile.
 
 In the code you’re about to write, you’ll use a constraint that allows either integer or float types.
 
+#### 翻译
+在本节中，您将添加一个通用函数，该函数可以接收包含整数或浮点值的map，从而有效地用一个函数替换您刚刚编写的两个函数。  
+要支持任一类型的值，该通用函数将需要一种方法来声明它支持的类型。另外，调用代码也需要一种方法来指定它是使用整数映射还是浮点映射进行调用。  
+为了支持这一点，您将编写一个函数，除了它的普通函数参数外，还声明支持的类型参数。这些类型参数使函数具有通用性，使其能够处理不同类型的参数。您将使
+用类型参数和普通函数参数调用函数。  
+每个类型参数都有一个类型约束，作为类型参数的一种元类型。每个类型约束指定调用代码可以用于相应类型参数的允许类型参数。  
+虽然类型参数的约束通常表示一组类型，但在编译时类型参数代表单个类型——调用代码作为类型参数提供的类型。如果类型参数的约束不允许类型参数的类型，则代
+码将无法编译。(【译者注：虽然代码看似是定义了一组类型，但是在编译的时候，编译器会将其认为是一种单个类型，而泛型函数会提供此种特殊的类型。在实际，
+使用的时候，会对入参进行类型判断，不在类型组中的类型输入，会在编译的时候报错】)  
+请牢记，类型参数必须支持泛型代码对其执行的所有操作。例如，如果您的函数代码要尝试对其约束包括数字类型的类型参数执行字符串操作（例如索引），则代码
+将无法编译。(【译者注:译者也不知道该怎么理解这部分】)  
+在您将要编写的代码中，您将使用一个允许整数或浮点类型的约束。
+
 ### Write the code(编写代码)
+
+#### 原文
 - 1.Beneath the two functions you added previously, paste the following generic function.
 ```go
 // SumIntsOrFloats sums the values of map m. It supports both int64 and float64
@@ -287,8 +338,46 @@ func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
       them from your code.
     - Print the sums returned by the function.
 
+#### 翻译
+- 1.在你之前编写的两个函数下方，粘贴下方代码：
+```go
+// SumIntsOrFloats sums the values of map m. It supports both int64 and float64
+// as types for map values.
+func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
+    var s V
+    for _, v := range m {
+        s += v
+    }
+    return s
+}
+```
+
+    在代码中，做了以下内容：
+    - 声明一个 SumIntsOrFloats 函数，该函数具有两个类型参数（在方括号内）K 和 V，以及一个使用类型参数的参数，类型为 map[K]V 的 m。该函数
+    返回一个类型为 V 的值。
+    - 为 K 类型参数指定可比较的类型约束。专门针对此类情况，在 Go 中预先声明了可比较的约束。它允许其值可用作比较运算符 == 和 != 的操作数的任
+    何类型。 Go 要求映射键具有可比性。因此，必须将 K 声明为可比较的，以便您可以使用 K 作为映射变量中的键。它还确保调用代码使用允许的映射键类型。
+    - 为 V 类型参数指定一个约束，它是两种类型的并集：int64 和 float64。使用 |指定两种类型的联合，这意味着此约束允许任一类型。编译器将允许任
+    一类型作为调用代码中的参数。
+    - 指定 m 参数的类型为 map[K]V，其中 K 和 V 是已为类型参数指定的类型。请注意，我们知道 map[K]V 是一个有效的映射类型，因为 K 是一个可比
+    较的类型。如果我们没有声明 K 可比较，编译器将拒绝对 map[K]V 的引用。
+
+- 2.在 main.go 中，在您已有的代码下方，粘贴以下代码。
+```go
+fmt.Printf("Generic Sums: %v and %v\n",
+    SumIntsOrFloats[string, int64](ints),
+    SumIntsOrFloats[string, float64](floats))
+```
+
+    在代码中，做了以下内容：
+    · 调用您刚刚声明的通用函数，传递您创建的每个映射。
+    · 指定类型参数 - 方括号中的类型名称 - 以明确应替换您正在调用的函数中的类型参数的类型。
+    正如您将在下一节中看到的，您通常可以在函数调用中省略类型参数。 Go 通常可以从您的代码中推断出它们。
+    · 打印函数返回的总和。
+
 ### Run the code(运行代码)
-From the command line in the directory containing main.go, run the code.
+From the command line in the directory containing main.go, run the code.(在main.go文件所在的目录中打开命令终端，运行代码
+【译者注:打开终端切换至main.go文件所在目录，运行代码，也可以】)
 ```go
   $ go run .
   Non-Generic Sums: 46 and 62.97
