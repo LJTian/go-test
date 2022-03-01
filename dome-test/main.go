@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 //func main() {
 //
@@ -532,33 +529,46 @@ import (
 //	fmt.Println("结束")
 //}
 /*-------------------------------------------------------------------------------------------------------------*/
-// 匿名管道
+//// 匿名管道
+//func main() {
+//	// 创建没有缓存的管道:这种管道主要用于通知
+//	ch1 := make(chan int) // 通知消费者打印
+//	ch2 := make(chan int) // 通知主进程退出
+//	var arrt []int        // 局部容器
+//	// 消费者
+//	go func() {
+//		//当管道里面有了数据才会进行执行，没有数据会一直阻塞在这里
+//		fmt.Println("我在等通知")
+//		<-ch1
+//		fmt.Println("开始消费")
+//		for _, v := range arrt {
+//			fmt.Printf("%v\t ", v)
+//		}
+//		fmt.Println("消费结束")
+//		ch2 <- 1
+//		close(ch2)
+//	}()
+//	time.Sleep(10) // 等待
+//	fmt.Println("开始生产")
+//	// 生产者
+//	for i := 0; i < 5; i++ {
+//		arrt = append(arrt, i)
+//	}
+//	fmt.Println("生产完成")
+//	close(ch1)
+//	<-ch2 // 接受消费者通知退出
+//	fmt.Println("结束")
+//}
+
+// map 测试取不存在的值，string 返回的值是什么
 func main() {
-	// 创建没有缓存的管道:这种管道主要用于通知
-	ch1 := make(chan int) // 通知消费者打印
-	ch2 := make(chan int) // 通知主进程退出
-	var arrt []int        // 局部容器
-	// 消费者
-	go func() {
-		//当管道里面有了数据才会进行执行，没有数据会一直阻塞在这里
-		fmt.Println("我在等通知")
-		<-ch1
-		fmt.Println("开始消费")
-		for _, v := range arrt {
-			fmt.Printf("%v\t ", v)
-		}
-		fmt.Println("消费结束")
-		ch2 <- 1
-		close(ch2)
-	}()
-	time.Sleep(10) // 等待
-	fmt.Println("开始生产")
-	// 生产者
-	for i := 0; i < 5; i++ {
-		arrt = append(arrt, i)
+
+	map1 := make(map[string]string)
+
+	map1["123"] = "123"
+
+	if map1["321"] == "" {
+		fmt.Println("is ")
 	}
-	fmt.Println("生产完成")
-	close(ch1)
-	<-ch2 // 接受消费者通知退出
-	fmt.Println("结束")
+
 }

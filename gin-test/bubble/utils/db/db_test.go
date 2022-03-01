@@ -10,7 +10,7 @@ import (
 func TestInitDB(t *testing.T) {
 
 	fmt.Println("开始测试~")
-	newDB := NewDBinfo("81.70.17.60", "3306", "TYServer", "root", "123456")
+	newDB := NewDBinfo("192.168.0.87", "3306", "mis_go_new", "root", "p@ssw0rd")
 	newDB.InitDB()
 	fmt.Println("连接数据库成功！")
 
