@@ -564,11 +564,10 @@ import "fmt"
 func main() {
 
 	map1 := make(map[string]string)
-
 	map1["123"] = "123"
 
 	if map1["321"] == "" {
 		fmt.Println("is ")
 	}
-
+	// system Out"is "
 }
