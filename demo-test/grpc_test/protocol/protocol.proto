@@ -1,0 +1,36 @@
+
+
+syntax = "proto3";
+
+option go_package = "google.golang.org/grpc/examples/route_guide/routeguide";
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.routeguide";
+option java_outer_classname = "RouteGuideProto";
+
+package protocol;
+
+service HelloService {
+
+  // 一元调用
+  rpc SayHello(HelloRequest) returns (HelloResponse);
+  // 服务端流式返回
+  // rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
+  // 客户端流式
+  // rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);
+  // 双流式
+  // rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
+}
+
+message Msg {
+  string TransCode = 1;
+  string Data = 2;
+  string RespCode = 3;
+}
+
+message HelloRequest {
+  Msg req = 1;
+}
+
+message HelloResponse {
+  Msg resp = 1;
+}
