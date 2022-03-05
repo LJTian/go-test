@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 
-option go_package = "google.golang.org/grpc/examples/route_guide/routeguide";
+option go_package = "google.golang.org/grpc/protocol";
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.routeguide";
 option java_outer_classname = "RouteGuideProto";
