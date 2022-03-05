@@ -17,6 +17,8 @@ func init() {
 	switch sysType {
 	case "linux":
 		conf.NewConf(tools.GetCurrentDirectory() + "/../conf/TYserver.ini")
+	case "darwin":
+		conf.NewConf(tools.GetCurrentDirectory() + "/../conf/TYserver.ini")
 	case "windows":
 		conf.NewConf(tools.GetCurrentDirectory() + "\\..\\conf\\TYserver.ini")
 	}
