@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
 	"log"
 	"net"
 	"time"
@@ -52,6 +53,23 @@ func (s *server) LotsOfReplies(in *pb.HelloRequest, stream pb.HelloService_LotsO
 		stream.Send(resp)
 		time.Sleep(1 * time.Second)
 	}
+	return nil
+}
+
+func (s *server) LotsOfGreetings(stream pb.HelloService_LotsOfGreetingsServer) error {
+
+	for {
+		data, err := stream.Recv()
+		if err == io.EOF {
+			fmt.Println("断开链接")
+			break
+		} else if err != nil {
+			fmt.Println(err)
+			return err
+		}
+		fmt.Println(data)
+	}
+
 	return nil
 }
 

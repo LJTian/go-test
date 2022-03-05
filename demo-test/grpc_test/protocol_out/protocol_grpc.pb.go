@@ -22,6 +22,8 @@ type HelloServiceClient interface {
 	SayHello(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (*HelloResponse, error)
 	// 服务端流式返回
 	LotsOfReplies(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (HelloService_LotsOfRepliesClient, error)
+	// 客户端流式
+	LotsOfGreetings(ctx context.Context, opts ...grpc.CallOption) (HelloService_LotsOfGreetingsClient, error)
 }
 
 type helloServiceClient struct {
@@ -73,6 +75,40 @@ func (x *helloServiceLotsOfRepliesClient) Recv() (*HelloResponseStream, error) {
 	return m, nil
 }
 
+func (c *helloServiceClient) LotsOfGreetings(ctx context.Context, opts ...grpc.CallOption) (HelloService_LotsOfGreetingsClient, error) {
+	stream, err := c.cc.NewStream(ctx, &HelloService_ServiceDesc.Streams[1], "/protocol.HelloService/LotsOfGreetings", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &helloServiceLotsOfGreetingsClient{stream}
+	return x, nil
+}
+
+type HelloService_LotsOfGreetingsClient interface {
+	Send(*HelloRequestStream) error
+	CloseAndRecv() (*HelloResponse, error)
+	grpc.ClientStream
+}
+
+type helloServiceLotsOfGreetingsClient struct {
+	grpc.ClientStream
+}
+
+func (x *helloServiceLotsOfGreetingsClient) Send(m *HelloRequestStream) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *helloServiceLotsOfGreetingsClient) CloseAndRecv() (*HelloResponse, error) {
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	m := new(HelloResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // HelloServiceServer is the server API for HelloService service.
 // All implementations must embed UnimplementedHelloServiceServer
 // for forward compatibility
@@ -81,6 +117,8 @@ type HelloServiceServer interface {
 	SayHello(context.Context, *HelloRequest) (*HelloResponse, error)
 	// 服务端流式返回
 	LotsOfReplies(*HelloRequest, HelloService_LotsOfRepliesServer) error
+	// 客户端流式
+	LotsOfGreetings(HelloService_LotsOfGreetingsServer) error
 	mustEmbedUnimplementedHelloServiceServer()
 }
 
@@ -93,6 +131,9 @@ func (UnimplementedHelloServiceServer) SayHello(context.Context, *HelloRequest) 
 }
 func (UnimplementedHelloServiceServer) LotsOfReplies(*HelloRequest, HelloService_LotsOfRepliesServer) error {
 	return status.Errorf(codes.Unimplemented, "method LotsOfReplies not implemented")
+}
+func (UnimplementedHelloServiceServer) LotsOfGreetings(HelloService_LotsOfGreetingsServer) error {
+	return status.Errorf(codes.Unimplemented, "method LotsOfGreetings not implemented")
 }
 func (UnimplementedHelloServiceServer) mustEmbedUnimplementedHelloServiceServer() {}
 
@@ -146,6 +187,32 @@ func (x *helloServiceLotsOfRepliesServer) Send(m *HelloResponseStream) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _HelloService_LotsOfGreetings_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(HelloServiceServer).LotsOfGreetings(&helloServiceLotsOfGreetingsServer{stream})
+}
+
+type HelloService_LotsOfGreetingsServer interface {
+	SendAndClose(*HelloResponse) error
+	Recv() (*HelloRequestStream, error)
+	grpc.ServerStream
+}
+
+type helloServiceLotsOfGreetingsServer struct {
+	grpc.ServerStream
+}
+
+func (x *helloServiceLotsOfGreetingsServer) SendAndClose(m *HelloResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *helloServiceLotsOfGreetingsServer) Recv() (*HelloRequestStream, error) {
+	m := new(HelloRequestStream)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // HelloService_ServiceDesc is the grpc.ServiceDesc for HelloService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -163,6 +230,11 @@ var HelloService_ServiceDesc = grpc.ServiceDesc{
 			StreamName:    "LotsOfReplies",
 			Handler:       _HelloService_LotsOfReplies_Handler,
 			ServerStreams: true,
+		},
+		{
+			StreamName:    "LotsOfGreetings",
+			Handler:       _HelloService_LotsOfGreetings_Handler,
+			ClientStreams: true,
 		},
 	},
 	Metadata: "protocol/protocol.proto",
