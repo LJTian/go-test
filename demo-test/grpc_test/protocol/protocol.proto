@@ -2,7 +2,7 @@
 
 syntax = "proto3";
 
-option go_package = "google.golang.org/grpc/examples/route_guide/routeguide";
+option go_package = "google.golang.org/grpc/examples/protocol";
 option java_multiple_files = true;
 option java_package = "io.grpc.examples.routeguide";
 option java_outer_classname = "RouteGuideProto";
@@ -14,7 +14,7 @@ service HelloService {
   // 一元调用
   rpc SayHello(HelloRequest) returns (HelloResponse);
   // 服务端流式返回
-  // rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse);
+  rpc LotsOfReplies(HelloRequest) returns (stream HelloResponseStream);
   // 客户端流式
   // rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse);
   // 双流式
@@ -32,5 +32,9 @@ message HelloRequest {
 }
 
 message HelloResponse {
+  Msg resp = 1;
+}
+
+message HelloResponseStream {
   Msg resp = 1;
 }

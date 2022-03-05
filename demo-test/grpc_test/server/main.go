@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	pb "go_test/grpc_test/protocol_out"
 	"google.golang.org/grpc"
@@ -33,6 +34,25 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		},
 	}
 	return resp, nil
+}
+
+// SayHello implements helloworld.GreeterServer
+func (s *server) LotsOfReplies(in *pb.HelloRequest, stream pb.HelloService_LotsOfRepliesServer) error {
+
+	fmt.Printf("Received: %s[%s]:%s\n", in.GetReq().TransCode, in.GetReq().RespCode, in.GetReq().Data)
+
+	for i := 0; i < 10; i++ {
+		resp := &pb.HelloResponseStream{
+			Resp: &pb.Msg{
+				TransCode: fmt.Sprintf("%06d", i+1),
+				Data:      fmt.Sprintf("我是服务器回应%d", i),
+				RespCode:  "00",
+			},
+		}
+		stream.Send(resp)
+		time.Sleep(1 * time.Second)
+	}
+	return nil
 }
 
 func main() {

@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 	"time"
 
@@ -30,7 +31,7 @@ func main() {
 	defer conn.Close()
 
 	client := pb.NewHelloServiceClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 60*time.Second)
 	defer cancel()
 	req := &pb.HelloRequest{
 		Req: &pb.Msg{
@@ -39,9 +40,25 @@ func main() {
 			RespCode:  "98",
 		},
 	}
-	respData, err := client.SayHello(ctx, req)
+	//respData, err := client.SayHello(ctx, req)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//fmt.Println(respData)
+
+	respData, err := client.LotsOfReplies(ctx, req)
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println(respData)
+
+	for {
+		data, err := respData.Recv()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			fmt.Println(err)
+		}
+		fmt.Println(data)
+	}
+
 }
