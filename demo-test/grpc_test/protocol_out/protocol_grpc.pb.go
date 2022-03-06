@@ -24,6 +24,8 @@ type HelloServiceClient interface {
 	LotsOfReplies(ctx context.Context, in *HelloRequest, opts ...grpc.CallOption) (HelloService_LotsOfRepliesClient, error)
 	// 客户端流式
 	LotsOfGreetings(ctx context.Context, opts ...grpc.CallOption) (HelloService_LotsOfGreetingsClient, error)
+	// 双流式
+	BidiHello(ctx context.Context, opts ...grpc.CallOption) (HelloService_BidiHelloClient, error)
 }
 
 type helloServiceClient struct {
@@ -109,6 +111,37 @@ func (x *helloServiceLotsOfGreetingsClient) CloseAndRecv() (*HelloResponse, erro
 	return m, nil
 }
 
+func (c *helloServiceClient) BidiHello(ctx context.Context, opts ...grpc.CallOption) (HelloService_BidiHelloClient, error) {
+	stream, err := c.cc.NewStream(ctx, &HelloService_ServiceDesc.Streams[2], "/protocol.HelloService/BidiHello", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &helloServiceBidiHelloClient{stream}
+	return x, nil
+}
+
+type HelloService_BidiHelloClient interface {
+	Send(*HelloRequestStream) error
+	Recv() (*HelloResponseStream, error)
+	grpc.ClientStream
+}
+
+type helloServiceBidiHelloClient struct {
+	grpc.ClientStream
+}
+
+func (x *helloServiceBidiHelloClient) Send(m *HelloRequestStream) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *helloServiceBidiHelloClient) Recv() (*HelloResponseStream, error) {
+	m := new(HelloResponseStream)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // HelloServiceServer is the server API for HelloService service.
 // All implementations must embed UnimplementedHelloServiceServer
 // for forward compatibility
@@ -119,6 +152,8 @@ type HelloServiceServer interface {
 	LotsOfReplies(*HelloRequest, HelloService_LotsOfRepliesServer) error
 	// 客户端流式
 	LotsOfGreetings(HelloService_LotsOfGreetingsServer) error
+	// 双流式
+	BidiHello(HelloService_BidiHelloServer) error
 	mustEmbedUnimplementedHelloServiceServer()
 }
 
@@ -134,6 +169,9 @@ func (UnimplementedHelloServiceServer) LotsOfReplies(*HelloRequest, HelloService
 }
 func (UnimplementedHelloServiceServer) LotsOfGreetings(HelloService_LotsOfGreetingsServer) error {
 	return status.Errorf(codes.Unimplemented, "method LotsOfGreetings not implemented")
+}
+func (UnimplementedHelloServiceServer) BidiHello(HelloService_BidiHelloServer) error {
+	return status.Errorf(codes.Unimplemented, "method BidiHello not implemented")
 }
 func (UnimplementedHelloServiceServer) mustEmbedUnimplementedHelloServiceServer() {}
 
@@ -213,6 +251,32 @@ func (x *helloServiceLotsOfGreetingsServer) Recv() (*HelloRequestStream, error) 
 	return m, nil
 }
 
+func _HelloService_BidiHello_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(HelloServiceServer).BidiHello(&helloServiceBidiHelloServer{stream})
+}
+
+type HelloService_BidiHelloServer interface {
+	Send(*HelloResponseStream) error
+	Recv() (*HelloRequestStream, error)
+	grpc.ServerStream
+}
+
+type helloServiceBidiHelloServer struct {
+	grpc.ServerStream
+}
+
+func (x *helloServiceBidiHelloServer) Send(m *HelloResponseStream) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *helloServiceBidiHelloServer) Recv() (*HelloRequestStream, error) {
+	m := new(HelloRequestStream)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
 // HelloService_ServiceDesc is the grpc.ServiceDesc for HelloService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -234,6 +298,12 @@ var HelloService_ServiceDesc = grpc.ServiceDesc{
 		{
 			StreamName:    "LotsOfGreetings",
 			Handler:       _HelloService_LotsOfGreetings_Handler,
+			ClientStreams: true,
+		},
+		{
+			StreamName:    "BidiHello",
+			Handler:       _HelloService_BidiHello_Handler,
+			ServerStreams: true,
 			ClientStreams: true,
 		},
 	},

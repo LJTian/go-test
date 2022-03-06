@@ -73,6 +73,60 @@ func (s *server) LotsOfGreetings(stream pb.HelloService_LotsOfGreetingsServer) e
 	return nil
 }
 
+func (s *server) BidiHello(stream pb.HelloService_BidiHelloServer) error {
+
+	// 建立链接
+	fmt.Println("建立链接")
+	clientClossFlag := make(chan int, 0)
+
+	// 接受线程
+	go func(<-chan int) {
+		for {
+			data, err := stream.Recv()
+			if err == io.EOF {
+				fmt.Println("断开链接")
+				clientClossFlag <- 1
+				return
+			} else if err != nil {
+				fmt.Println(err)
+				return
+			}
+			fmt.Println(data)
+		}
+		time.Sleep(1 * time.Second)
+	}(clientClossFlag)
+
+	//发送处理
+	var i int
+
+for1:
+	for {
+		select {
+		case <-clientClossFlag:
+			fmt.Println("退出")
+			break for1
+		default:
+			resp := &pb.HelloResponseStream{
+				Resp: &pb.Msg{
+					TransCode: fmt.Sprintf("%06d", i+1),
+					Data:      fmt.Sprintf("我是服务器回应%d", i),
+					RespCode:  "00",
+				},
+			}
+			err := stream.Send(resp)
+			if err != nil {
+				fmt.Println(err)
+				break
+			}
+		}
+		i++
+		time.Sleep(1 * time.Second)
+	}
+	time.Sleep(5 * time.Second)
+
+	return nil
+}
+
 func main() {
 	flag.Parse()
 	lis, err := net.Listen("tcp", fmt.Sprintf("localhost:%d", *port))

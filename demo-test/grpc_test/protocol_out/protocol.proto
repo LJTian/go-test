@@ -18,7 +18,7 @@ service HelloService {
   // 客户端流式
   rpc LotsOfGreetings(stream HelloRequestStream) returns (HelloResponse);
   // 双流式
-  // rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
+  rpc BidiHello(stream HelloRequestStream) returns (stream HelloResponseStream);
 }
 
 message Msg {

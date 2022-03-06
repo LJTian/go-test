@@ -5,6 +5,7 @@ import (
 	"flag"
 	"fmt"
 	"google.golang.org/grpc"
+	"io"
 	"log"
 	"time"
 
@@ -40,12 +41,14 @@ func main() {
 		},
 	}
 
+	// 一元函数
 	//respData, err := client.SayHello(ctx, req)
 	//if err != nil {
 	//	fmt.Println(err)
 	//}
 	//fmt.Println(respData)
 
+	// 服务端流式函数
 	//respData, err := client.LotsOfReplies(ctx, req)
 	//if err != nil {
 	//	fmt.Println(err)
@@ -62,27 +65,66 @@ func main() {
 	//	fmt.Println(data)
 	//}
 
-	respData, err := client.LotsOfGreetings(ctx)
+	// 客户端流式函数
+	//respData, err := client.LotsOfGreetings(ctx)
+	//if err != nil {
+	//	fmt.Println(err)
+	//}
+	//defer respData.CloseSend()
+	//for i := 0; i < 10; i++ {
+	//	req := &pb.HelloRequestStream{
+	//		Req: &pb.Msg{
+	//			TransCode: fmt.Sprintf("%06d", i+1),
+	//			Data:      fmt.Sprintf("我是客户端发送%d", i),
+	//			RespCode:  "00",
+	//		},
+	//	}
+	//	fmt.Println(req)
+	//	err = respData.Send(req)
+	//	if err != nil {
+	//		fmt.Println(err)
+	//		break
+	//	}
+	//	time.Sleep(1 * time.Second)
+	//}
+
+	req, err := client.BidiHello(ctx)
 	if err != nil {
 		fmt.Println(err)
+		return
 	}
-	defer respData.CloseSend()
+	defer req.CloseSend()
+
+	go func() {
+		for {
+			data, err := req.Recv()
+			if err == io.EOF {
+				fmt.Println("断开链接")
+				return
+			} else if err != nil {
+				fmt.Println()
+				return
+			}
+			fmt.Println(data.Resp)
+			time.Sleep(1 * time.Second)
+		}
+	}()
+
 	for i := 0; i < 10; i++ {
-		req := &pb.HelloRequestStream{
+		reqDta := &pb.HelloRequestStream{
 			Req: &pb.Msg{
 				TransCode: fmt.Sprintf("%06d", i+1),
 				Data:      fmt.Sprintf("我是客户端发送%d", i),
 				RespCode:  "00",
 			},
 		}
-		fmt.Println(req)
-		err = respData.Send(req)
+		//fmt.Println(req)
+		err = req.Send(reqDta)
 		if err != nil {
 			fmt.Println(err)
 			break
 		}
 		time.Sleep(1 * time.Second)
 	}
-
 	time.Sleep(5 * time.Second)
 }
