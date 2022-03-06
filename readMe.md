@@ -1,10 +1,21 @@
 ### go-gin:
 
 ### dome-test:
-- test1 测试 gc
+- 101Grammar 基础语法
+- chan-test 管道测试
+- error-test error接口测试
+- grpc_test grpc四种调用方式测试
+- indexString 字符串分割测试
+- internal_test internal检测是约定俗成还是语言限制
+- pkgInPkg
+- sqlx
+- sshGoRun
+- Gc_test 测试 gc
 - test2 测试go build           [测试编译时 =+ 编译是否报错]
 - test3 go tool trace         [可视化跟踪GMP]
 - test4 fmt.printf ""         换行输出
+- test5 derfer错误用法
+- time 时间获取
 
 ### gin-test:
 - bubble                      小清单项目
@@ -15,9 +26,6 @@
 
 ### gorm-test:
 - main                        gorm 链接数据库测试
-
-### grpc-test:
-- main                        基于官方文档实现的案例
 
 ### http-test:
 - test1                       基于net/http 编写web测试案例
