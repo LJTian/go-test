@@ -9,7 +9,7 @@ import (
 	"github.com/Shopify/sarama"
 )
 
-var Address = []string{"150.158.78.82:9092"}
+var Address = []string{"127.0.0.1:19092"}
 
 func main() {
 	syncProducer(Address)
