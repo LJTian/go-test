@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"github.com/streadway/amqp"
-	"log"
 )
 
 type RabbitMQ struct {
@@ -31,7 +30,7 @@ func (ramq *RabbitMQ) CloseConnect() (err error) {
 }
 
 // 创建转换器
-func (ramq *RabbitMQ) ExchangeCreat(exchangeType string, topic string) (err error) {
+func (ramq *RabbitMQ) CreatExchange(exchangeType string, topic string) (err error) {
 
 	if ramq.channelMap == nil {
 		ramq.channelMap = make(map[string]*amqp.Channel)
@@ -40,6 +39,7 @@ func (ramq *RabbitMQ) ExchangeCreat(exchangeType string, topic string) (err erro
 			return errors.New(topic + "已存在")
 		}
 	}
+
 	ch, err := ramq.conn.Channel()
 	if err != nil {
 		return
@@ -64,9 +64,38 @@ func (ramq *RabbitMQ) CloseChannels() {
 	}
 }
 
+// 创建队列
+func (ramq *RabbitMQ) CreatQueue(topic string, QueueName string) (queue *amqp.Queue, err error) {
+
+	q, err := ramq.channelMap[topic].QueueDeclare(
+		QueueName, // name
+		false,     // durable
+		false,     // delete when unused
+		true,      // exclusive
+		false,     // no-wait
+		nil,       // arguments
+	)
+	queue = &q
+	return
+}
+
+// 绑定队列
+func (ramq *RabbitMQ) BindQueue(topic string, queueName string, routingKey string) (err error) {
+	err = ramq.channelMap[topic].QueueBind(
+		queueName,  // queue name
+		routingKey, // routing key
+		topic,      // exchange
+		false,
+		nil,
+	)
+
+	return
+}
+
 // 基于事件主题 关闭管道
 func (ramq *RabbitMQ) CloseChannelByTopic(topic string) (err error) {
 	if v, ok := ramq.channelMap[topic]; ok {
+		v.ExchangeDelete(topic, false, true)
 		v.Close()
 		return
 	}
@@ -74,7 +103,7 @@ func (ramq *RabbitMQ) CloseChannelByTopic(topic string) (err error) {
 }
 
 // 发送消息
-func (ramq *RabbitMQ) Send(topic string, msg []byte) (err error) {
+func (ramq *RabbitMQ) Send(topic string, routingKey string, msg []byte) (err error) {
 
 	if _, ok := ramq.channelMap[topic]; !ok {
 		return errors.New(topic + "不存在！")
@@ -82,15 +111,29 @@ func (ramq *RabbitMQ) Send(topic string, msg []byte) (err error) {
 
 	ch := ramq.channelMap[topic]
 	err = ch.Publish(
-		topic, // exchange
-		"",    // routing key
-		false, // mandatory
-		false, // immediate
+		topic,      // exchange
+		routingKey, // routing key
+		false,      // mandatory
+		false,      // immediate
 		amqp.Publishing{
 			ContentType: "text/plain",
 			Body:        msg,
 		})
 
-	log.Printf(" [%s] Sent %s", topic, string(msg))
+	return
+}
+
+//
+func (ramq *RabbitMQ) CreatConsume(topic string, queueName string, ConsumeName string, aotoAck bool) (msgs <-chan amqp.Delivery, err error) {
+
+	msgs, err = ramq.channelMap[topic].Consume(
+		queueName,   // queue
+		ConsumeName, // consumer
+		aotoAck,     // auto-ack
+		false,       // exclusive
+		false,       // no-local
+		false,       // no-wait
+		nil,         // args
+	)
 	return
 }

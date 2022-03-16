@@ -9,7 +9,7 @@ import (
 
 func SelectAndLinkDB() *DBinfo {
 	fmt.Println("开始测试~")
-	newDB := NewDBinfo("192.168.0.87", "3306", "mis_go_new", "root", "p@ssw0rd")
+	newDB := NewDBinfo("192.168.0.182", "3306", "go_mis", "root", "p@ssw0rd")
 	newDB.InitDB()
 	fmt.Println("连接数据库成功！")
 	return newDB
@@ -74,5 +74,52 @@ func DbFetchSequence(pstDb *sqlx.Tx, sName string) (object int64, err error) {
 		}
 	}
 
+	return
+}
+
+/* 商品基本信息表 */
+type Commodity struct {
+	Id           sql.NullInt64   `db:"id"`            // 主键ID
+	CommodNo     sql.NullString  `db:"commod_no"`     // 商品编码
+	CommodName   sql.NullString  `db:"commod_name"`   // 商品名称
+	TypeName     sql.NullString  `db:"type_name"`     // 商品分类名称
+	BrandName    sql.NullString  `db:"brand_name"`    // 品牌名称
+	MeasureUnit  sql.NullString  `db:"measure_unit"`  // 计量单位
+	Norms        sql.NullString  `db:"norms"`         // 商品规格
+	Price        sql.NullFloat64 `db:"price"`         // 标准售价
+	SimpleCode   sql.NullString  `db:"simple_code"`   // 助记码
+	OutsideSale  sql.NullString  `db:"outside_sale"`  // 室外销售标志
+	SafeFlag     sql.NullString  `db:"sale_flag"`     // 停售标识
+	RedeemFlag   sql.NullString  `db:"redeem_flag"`   // 积分换购标志
+	RedeemPoints sql.NullInt32   `db:"redeem_points"` // 换购积分值
+}
+
+func DbGetOutsideCommodityList(pstDb *sqlx.DB) (object *[]Commodity, err error) {
+
+	var commodity Commodity
+	commoditys := make([]Commodity, 0)
+	sqlBuff := fmt.Sprintf("SELECT * " +
+		"FROM COMMODITY " +
+		"WHERE SALE_FLAG  = '0' " +
+		"AND ID IN " +
+		"(SELECT COMMOD_ID FROM STATION_COMMODITY_CTRL WHERE OUT_SALE_FLAG = 'Y' AND STOP_FLAG = 0) ")
+
+	rows, err := pstDb.Queryx(sqlBuff)
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+
+		err = rows.StructScan(&commodity)
+		if err != nil {
+			rows.Close()
+			return nil, err
+		}
+
+		commoditys = append(commoditys, commodity)
+	}
+	object = &commoditys
+	rows.Close()
 	return
 }

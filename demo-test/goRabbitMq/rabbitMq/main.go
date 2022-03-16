@@ -6,48 +6,59 @@ import (
 	"time"
 )
 
-func worker(ramq *RabbitMQ, topic string) {
-	ch := ramq.channelMap[topic]
-	q, err := ramq.channelMap[topic].QueueDeclare(
-		"",    // name
-		false, // durable
-		false, // delete when unused
-		true,  // exclusive
-		false, // no-wait
-		nil,   // arguments
-	)
-	failOnError(err, "Failed to declare a queue")
+func worker(ramq *RabbitMQ, topic string, routingKey string, name string) {
 
-	err = ch.QueueBind(
-		q.Name, // queue name
-		"",     // routing key
-		topic,  // exchange
-		false,
-		nil,
-	)
-	failOnError(err, "Failed to bind a queue")
+	q, err := ramq.CreatQueue(topic, "")
+	if err != nil {
+		failOnError(err, "Failed to declare a queue")
+		return
+	}
 
-	msgs, err := ch.Consume(
-		q.Name, // queue
-		"",     // consumer
-		true,   // auto-ack
-		false,  // exclusive
-		false,  // no-local
-		false,  // no-wait
-		nil,    // args
-	)
-	failOnError(err, "Failed to register a consumer")
+	err = ramq.BindQueue(topic, q.Name, routingKey)
+	if err != nil {
+		failOnError(err, "Failed to bind a queue")
+		return
+	}
 
+	msgs, err := ramq.CreatConsume(topic, q.Name, "", true)
+	if err != nil {
+		failOnError(err, "Failed to register a consumer")
+	}
 	forever := make(chan bool)
 
 	go func() {
 		for d := range msgs {
-			log.Printf(" [%s]worker %s", topic, d.Body)
+			log.Printf("name:[%s] ---- [%s-%s]worker %s", name, topic, routingKey, d.Body)
 		}
 	}()
 
 	log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
 	<-forever
+}
+
+func producer(ramq *RabbitMQ, topic string, name string) {
+
+	var err error
+
+	// 发送数据
+	forever1 := make(chan bool)
+
+	for i := 0; i < 100; i++ {
+		body := fmt.Sprintf("hello [%d]", i)
+		if i%2 == 0 {
+			err = ramq.Send(topic, "MngTran.Log", []byte(body))
+		} else {
+			err = ramq.Send(topic, "AcctTran.Log", []byte(body))
+		}
+		log.Printf("name[%s]  -- Say[%s]", name, body)
+
+		if err != nil {
+			failOnError(err, "Failed  Send")
+		}
+		time.Sleep(1 * time.Second)
+	}
+
+	<-forever1
 }
 
 func main() {
@@ -63,26 +74,23 @@ func main() {
 		return
 	}
 
-	err = ramq.ExchangeCreat("fanout", topic)
+	err = ramq.CreatExchange("topic", topic)
 	if err != nil {
 		failOnError(err, "Failed exchange")
 	}
 
 	// 开启消费者
-	go worker(&ramq, topic)
+	go worker(&ramq, topic, "MngTran.*", "worker1")
+	go worker(&ramq, topic, "*.Log", "worker2")
+	go worker(&ramq, topic, "*.Log", "worker3")
+	go worker(&ramq, topic, "AcctTran.*", "worker4")
 
-	// 发送数据
-	forever1 := make(chan bool)
+	// 开启生产者
+	go producer(&ramq, topic, "producer1")
+	go producer(&ramq, topic, "producer2")
 
-	for i := 0; i < 100; i++ {
-		body := fmt.Sprintf("hello %d", i)
-		err = ramq.Send(topic, []byte(body))
-		if err != nil {
-			failOnError(err, "Failed  Send")
-		}
-		time.Sleep(1 * time.Second)
-	}
+	stopCh := make(chan int)
 
-	<-forever1
+	<-stopCh
 	return
 }

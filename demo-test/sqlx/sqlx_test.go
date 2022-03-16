@@ -21,3 +21,16 @@ func TestDbFetchSequence(t *testing.T) {
 
 	CloseLinkDB(newDB)
 }
+
+func TestDbGetOutsideCommodityList(t *testing.T) {
+
+	newDB := SelectAndLinkDB()
+
+	CommodityLists, err := DbGetOutsideCommodityList(Db)
+	if err != nil {
+		fmt.Println("DbFetchSequence err is :", err)
+	}
+	fmt.Println(CommodityLists)
+
+	CloseLinkDB(newDB)
+}
