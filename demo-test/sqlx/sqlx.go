@@ -94,6 +94,21 @@ type Commodity struct {
 	RedeemPoints sql.NullInt32   `db:"redeem_points"` // 换购积分值
 }
 
+func DbGetCommodityById(pstDb *sqlx.DB) (object *Commodity, err error) {
+
+	var commodity Commodity
+	object = &commodity
+
+	sqlBuff := fmt.Sprintf(
+		"select * from COMMODITY where id = %d", 10000)
+
+	err = pstDb.QueryRowx(sqlBuff).StructScan(object)
+	fmt.Println(err)
+
+	return
+
+}
+
 func DbGetOutsideCommodityList(pstDb *sqlx.DB) (object *[]Commodity, err error) {
 
 	var commodity Commodity

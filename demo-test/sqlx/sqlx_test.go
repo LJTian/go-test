@@ -1,6 +1,8 @@
 package sqlx
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"testing"
 )
@@ -33,4 +35,21 @@ func TestDbGetOutsideCommodityList(t *testing.T) {
 	fmt.Println(CommodityLists)
 
 	CloseLinkDB(newDB)
+}
+
+func TestDbGetCommodityById(t *testing.T) {
+
+	newDB := SelectAndLinkDB()
+
+	CommodityLists, err := DbGetCommodityById(Db)
+	if err != nil {
+		if !errors.As(err, &sql.ErrNoRows) {
+			fmt.Println("DbGetCommodityById err is :", err)
+		} else {
+			fmt.Println(CommodityLists)
+		}
+	}
+
+	CloseLinkDB(newDB)
+
 }
