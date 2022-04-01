@@ -53,3 +53,16 @@ func TestDbGetCommodityById(t *testing.T) {
 	CloseLinkDB(newDB)
 
 }
+
+func TestDbGetCommodity(t *testing.T) {
+	newDB := SelectAndLinkDB()
+
+	CommodityLists, err := DbGetCommodity(Db)
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	fmt.Println(CommodityLists)
+
+	CloseLinkDB(newDB)
+}

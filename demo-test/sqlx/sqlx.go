@@ -138,3 +138,11 @@ func DbGetOutsideCommodityList(pstDb *sqlx.DB) (object *[]Commodity, err error) 
 	rows.Close()
 	return
 }
+
+func DbGetCommodity(pstDb *sqlx.DB) (object int, err error) {
+	sqlBuff := fmt.Sprintf("SELECT sum(1) " +
+		"FROM COMMODITY ")
+
+	err = pstDb.QueryRowx(sqlBuff).Scan(&object)
+	return
+}
