@@ -28,7 +28,7 @@ func Register(address string, port int, name string, tags []string, id string) e
 		HTTP:                           fmt.Sprintf("http://%s:%d/health", address, port),
 		Timeout:                        "5s",
 		Interval:                       "5s",
-		DeregisterCriticalServiceAfter: "10s",
+		DeregisterCriticalServiceAfter: "300s",
 	}
 
 	//生成注册对象
@@ -61,8 +61,8 @@ func main() {
 	// 1、建立链接
 	GClient = connet("10.211.55.3", 8500)
 	// 2、注册服务
-	Register("10.211.55.3", 8080, "test", []string{"test"}, "test")
-	Register("10.211.55.3", 8080, "test1", []string{"test"}, "test1")
+	Register("10.211.55.3", 8080, "test", []string{"test"}, "test3")
+	Register("10.211.55.3", 8080, "test", []string{"test"}, "test4")
 	// 3、摘掉服务
-	UnRegister("test")
+	//UnRegister("test")
 }
