@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 //func main() {
 //
@@ -560,14 +563,27 @@ import "fmt"
 //	fmt.Println("结束")
 //}
 
-// map 测试取不存在的值，string 返回的值是什么
+//// map 测试取不存在的值，string 返回的值是什么
+//func main() {
+//
+//	map1 := make(map[string]string)
+//	map1["123"] = "123"
+//
+//	if map1["321"] == "" {
+//		fmt.Println("is ")
+//	}
+//	// system Out"is "
+//}
+
+func worker(ch chan struct{}) {
+	<-ch // 阻塞等待
+	fmt.Println("do something")
+	close(ch)
+}
+
 func main() {
-
-	map1 := make(map[string]string)
-	map1["123"] = "123"
-
-	if map1["321"] == "" {
-		fmt.Println("is ")
-	}
-	// system Out"is "
+	ch := make(chan struct{})
+	go worker(ch)
+	ch <- struct{}{}             // 通知协程执行
+	time.Sleep(10 * time.Second) // 这需要睡眠等待，否则，子协程还没有执行，就进程就退出了
 }
