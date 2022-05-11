@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 //func main() {
 //
@@ -575,15 +572,24 @@ import (
 //	// system Out"is "
 //}
 
-func worker(ch chan struct{}) {
-	<-ch // 阻塞等待
-	fmt.Println("do something")
-	close(ch)
-}
+//func worker(ch chan struct{}) {
+//	<-ch // 阻塞等待
+//	fmt.Println("do something")
+//	close(ch)
+//}
+//
+//func main() {
+//	ch := make(chan struct{})
+//	go worker(ch)
+//	ch <- struct{}{}             // 通知协程执行
+//	time.Sleep(10 * time.Second) // 这需要睡眠等待，否则，子协程还没有执行，就进程就退出了
+//}
 
+// 关闭一个没有缓存的chennel, 对这个管道再读，会读到 0 或者 nil
 func main() {
-	ch := make(chan struct{})
-	go worker(ch)
-	ch <- struct{}{}             // 通知协程执行
-	time.Sleep(10 * time.Second) // 这需要睡眠等待，否则，子协程还没有执行，就进程就退出了
+
+	ch1 := make(chan (int))
+	close(ch1)
+
+	fmt.Println("%v", <-ch1)
 }
