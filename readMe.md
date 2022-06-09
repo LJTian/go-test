@@ -15,6 +15,9 @@
 - test3 go tool trace         [可视化跟踪GMP]
 - test4 fmt.printf ""         换行输出
 - test5 derfer错误用法
+- test6 面试遇到的题            特别细节，不敲dome是想不到的
+- test7、8 面试写的代码         很简单的面试题
+- beego_log_test 测试beego架构的日志模块 多日志文件记录
 - time 时间获取
 
 ### gin-test:
