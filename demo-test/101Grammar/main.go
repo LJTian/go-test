@@ -1,7 +1,5 @@
 package main
 
-import "fmt"
-
 //func main() {
 //
 //	var a int
@@ -586,10 +584,38 @@ import "fmt"
 //}
 
 // 关闭一个没有缓存的chennel, 对这个管道再读，会读到 0 或者 nil
-func main() {
+//func main() {
+//
+//	ch1 := make(chan (int))
+//	close(ch1)
+//
+//	fmt.Println("%v", <-ch1)
+//
+//	//strings.Split()
+//}
 
-	ch1 := make(chan (int))
-	close(ch1)
-
-	fmt.Println("%v", <-ch1)
-}
+// json 序列化-反序列化
+//type Name1 struct {
+//	Name_string []string `json:"nameString"`
+//	Age         int      `json:"age"`
+//}
+//
+//func main() {
+//
+//	name1 := Name1{
+//		[]string{
+//			"tian",
+//			"li",
+//			"jun",
+//		},
+//		28,
+//	}
+//
+//	strBuff, _ := json.Marshal(&name1)
+//	fmt.Println(string(strBuff))
+//
+//	var name2 Name1
+//	json.Unmarshal(strBuff, &name2)
+//	fmt.Printf("%+v", name2)
+//
+//}
