@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"time"
 )
@@ -624,31 +623,41 @@ import (
 //	json.Unmarshal(strBuff, &name2)
 //	fmt.Printf("%+v", name2)
 //}
-
-type ResultCluster struct {
-	Id           int       `json:"id" `
-	CreatedAt    time.Time `json:"created_at" `
-	UpdatedAt    time.Time `json:"updated_at" `
-	ClusterName  string    `json:"clustername" `
-	Version      string    `json:"version" `
-	MasterNum    int       `json:"masternum" `
-	WorkerNum    int       `json:"workernum" `
-	MasterIp     string    `json:"masterip" `
-	WorkerIp     string    `json:"workerip" `
-	MasterPasswd string    `json:"masterpasswd" `
-	WorkerPasswd string    `json:"workerpasswd" `
-	MasterUser   string    `json:"masteruser" `
-	WorkerUser   string    `json:"workeruser" `
-}
+//
+//type ResultCluster struct {
+//	Id           int       `json:"id" `
+//	CreatedAt    time.Time `json:"created_at" `
+//	UpdatedAt    time.Time `json:"updated_at" `
+//	ClusterName  string    `json:"clustername" `
+//	Version      string    `json:"version" `
+//	MasterNum    int       `json:"masternum" `
+//	WorkerNum    int       `json:"workernum" `
+//	MasterIp     string    `json:"masterip" `
+//	WorkerIp     string    `json:"workerip" `
+//	MasterPasswd string    `json:"masterpasswd" `
+//	WorkerPasswd string    `json:"workerpasswd" `
+//	MasterUser   string    `json:"masteruser" `
+//	WorkerUser   string    `json:"workeruser" `
+//}
+//
+//func main() {
+//	data := "{\n    \"version\":\"kubernetes\",\n    \"clustername\":\"myclust0000\",\n    \"masterip\":\"[10.10.15.74]\",\n    \"workerip\":\"[10.10.15.51,10.10.15.64]\",\n    \"masteruser\":\"root\",\n    \"masterpasswd\":\"1\",\n    \"workeruser\":\"root\",\n    \"workerpasswd\":\"1\"\n}"
+//
+//	var buff ResultCluster
+//	err := json.Unmarshal([]byte(data), &buff)
+//	if err != nil {
+//		fmt.Println(err)
+//	}
+//
+//	fmt.Println("%+v", buff)
+//}
 
 func main() {
-	data := "{\n    \"version\":\"kubernetes\",\n    \"clustername\":\"myclust0000\",\n    \"masterip\":\"[10.10.15.74]\",\n    \"workerip\":\"[10.10.15.51,10.10.15.64]\",\n    \"masteruser\":\"root\",\n    \"masterpasswd\":\"1\",\n    \"workeruser\":\"root\",\n    \"workerpasswd\":\"1\"\n}"
-
-	var buff ResultCluster
-	err := json.Unmarshal([]byte(data), &buff)
-	if err != nil {
-		fmt.Println(err)
+	for i := 0; i < 5; i++ {
+		go func(a int) {
+			fmt.Printf("a is %d \t", a)
+		}(i)
 	}
 
-	fmt.Println("%+v", buff)
+	time.Sleep(100 * time.Second)
 }
