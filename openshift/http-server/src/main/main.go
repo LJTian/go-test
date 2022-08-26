@@ -10,7 +10,7 @@ import (
 func main() {
 
 	var nodeName string
-	if os.Getenv("NodeName") != "" {
+	if os.Getenv("kafka_listener_security_protocol_map") != "" {
 		nodeName = os.Getenv("NodeName")
 	} else {
 		nodeName = "NULL"
