@@ -16,11 +16,14 @@ func main() {
 		nodeName = "NULL"
 	}
 	fmt.Println("node Name is", nodeName)
+	hostName, _ := os.Hostname()
+	fmt.Println("HostName is", hostName)
 
 	r := gin.Default()
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"nodeName": nodeName,
+			"hostName": hostName,
 		})
 	})
 
