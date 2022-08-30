@@ -26,8 +26,20 @@ func main() {
 			"hostName": hostName,
 		})
 	})
+	r.GET("/print_head", HeadFunc)
 
 	r.Run(":" + "8080")
 
 	return
+}
+
+// HeadFunc 返回请求报文head内容
+func HeadFunc(ctx *gin.Context) {
+
+	resp := make(gin.H, 0)
+	for k, v := range ctx.Request.Header {
+		//fmt.Println(k, v)
+		resp[k] = v
+	}
+	ctx.JSON(http.StatusOK, resp)
 }
