@@ -29,7 +29,7 @@ func main() {
 				// fmt.Printf("back Link found: %q -> %s\n", e.Text, link)
 				// Visit link found on page
 				// Only those links are visited which are in AllowedDomains
-				err = c.Visit(e.Request.AbsoluteURL(link))
+				// err = c.Visit(e.Request.AbsoluteURL(link))
 			} else {
 				fmt.Printf("src Link found: %q -> %s\n", e.Text, e.Request.AbsoluteURL(link))
 			}
@@ -51,7 +51,7 @@ func main() {
 
 	// Start scraping on https://hackerspaces.org
 	// 填写需要爬虫的URL
-	err := c.Visit("https://ftp.redhat.com/pub/redhat/containers")
+	err := c.Visit("https://ftp.redhat.com/pub/redhat/linux/enterprise/8Base/en/RHMT/container-sources/")
 	if err != nil {
 		fmt.Println(err.Error())
 		return
