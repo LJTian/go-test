@@ -1,9 +1,6 @@
 package main
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 //func main() {
 //
@@ -651,13 +648,25 @@ import (
 //
 //	fmt.Println("%+v", buff)
 //}
+//
+//func main() {
+//	for i := 0; i < 5; i++ {
+//		go func(a int) {
+//			fmt.Printf("a is %d \t", a)
+//		}(i)
+//	}
+//
+//	time.Sleep(100 * time.Second)
+//}
 
 func main() {
-	for i := 0; i < 5; i++ {
-		go func(a int) {
-			fmt.Printf("a is %d \t", a)
-		}(i)
-	}
+	a := make(map[string]int, 0)
 
-	time.Sleep(100 * time.Second)
+	a["1"] = 1
+	a["2"] = 2
+
+	for k, _ := range a {
+		fmt.Println(k)
+	}
+	return
 }
