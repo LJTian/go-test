@@ -659,6 +659,7 @@ import "fmt"
 //	time.Sleep(100 * time.Second)
 //}
 
+/*
 func main() {
 	a := make(map[string]int, 0)
 
@@ -668,5 +669,35 @@ func main() {
 	for k, _ := range a {
 		fmt.Println(k)
 	}
+	return
+}
+*/
+
+/*
+1、函数签名：
+	demoFunc 返回一个整型值 ret，并且在函数体内声明了一个命名返回值 ret。
+2、defer 语句：
+	defer 语句用于注册一个延迟调用的函数。这个函数会在 demoFunc 返回之前执行。
+	在这里，defer func() { ret = 100 }() 会在 demoFunc 返回前执行，将 ret 的值设置为 100。
+3、设置 ret 的初始值：
+	ret = 10 这行代码将 ret 设置为 10。
+4、返回值：
+	return ret + 1 计算 ret + 1，此时 ret 的值是 10，所以 return 语句会返回 11。
+5、defer 的执行：
+	在 return 语句执行后，defer 注册的函数会被调用，此时它将 ret 的值修改为 100。
+
+结论：defer 函数会在执行完 return 后执行。 
+*/
+func demoFunc()(ret int){
+
+	defer func(){
+		ret = 100
+	}()
+	ret = 10
+	return ret + 1
+}
+
+func main(){
+	fmt.Println(demoFunc())
 	return
 }
