@@ -12,8 +12,7 @@ require (
 	github.com/hashicorp/consul/api v1.12.0
 	github.com/jmoiron/sqlx v1.3.4
 	github.com/nacos-group/nacos-sdk-go v1.1.1
-	github.com/onsi/ginkgo v1.16.5 // indirect
-	github.com/onsi/gomega v1.18.1 // indirect
+	github.com/russross/blackfriday/v2 v2.0.1
 	github.com/streadway/amqp v1.0.0
 	google.golang.org/grpc v1.44.0
 	google.golang.org/protobuf v1.28.0
